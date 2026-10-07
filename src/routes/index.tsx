@@ -10,7 +10,7 @@ import {
   Wifi,
   Facebook,
   Instagram,
-  Twitter,
+  Twitter,ي
   Youtube,
   Linkedin,
   Mail,
