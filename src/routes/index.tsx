@@ -8,26 +8,6 @@ import {
   MonitorPlay,
   Sparkles,
   Wifi,
-  Facebook,
-  Instagram,
-  Twitter,
-  Youtube,
-  Linkedin,
-  Mail,
-  MessageCircle,
-  Repeat,
-  Heart,
-  Share,
-  MapPin,
-  Phone,
-  Briefcase,
-  Users,
-  Monitor,
-  Smartphone,
-  Shield,
-  Star,
-  CheckCircle,
-} from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 
 import heroImage from "@/assets/alkayan-hero.jpg";
