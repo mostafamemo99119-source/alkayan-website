@@ -71,7 +71,7 @@ function TikTokIcon({ className }: { className?: string }) {
 function SectionHeading({ label, title, text }: { label: string; title: string; text?: string }) {
   return (
     <Reveal className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
-      <p className="mb-4 flex items-center justify-center gap-3 text-3xl md:text-4xl font-semibold tracking-wider text-primary">
+      <p className="mb-4 flex items-center justify-center gap-3 text-xl md:text-4xl font-semibold tracking-wider text-primary">
         <span className="h-px w-8 bg-primary" /> {label} <span className="h-px w-8 bg-primary" />
       </p>
       <h2 className="font-display text-4xl leading-tight text-foreground md:text-6xl">{title}</h2>
@@ -152,7 +152,7 @@ function HomePage() {
       <SiteHeader />
 
       {/* ─── Hero Slider ─── */}
-      <section className="relative z-10 bg-transparent min-h-[60vh] md:min-h-[94svh] overflow-hidden">
+      <section className="relative z-10 bg-transparent h-[40vh] md:h-auto md:min-h-[94svh] overflow-hidden">
         {heroSlides.map((image, index) => (
           <img
             key={image}
@@ -164,16 +164,16 @@ function HomePage() {
           />
         ))}
         <div className="hero-overlay absolute inset-0" />
-        <div className="relative z-10 mx-auto flex min-h-[60vh] md:min-h-[94svh] max-w-7xl items-center px-6 pb-24 pt-36 md:px-10">
+        <div className="relative z-10 mx-auto flex h-[40vh] md:h-auto md:min-h-[94svh] max-w-7xl items-center px-6 pb-10 pt-20 md:pb-24 md:pt-36 md:px-10">
           <div className="max-w-3xl reveal-up">
-            <p className="mb-6 flex items-center gap-3 text-3xl md:text-4xl font-semibold tracking-wider text-primary">
-              <Sparkles className="size-6 md:size-8" /> {content.hero.eyebrow}
+            <p className="mb-6 flex items-center gap-3 text-xl md:text-4xl font-semibold tracking-wider text-primary">
+              <Sparkles className="size-4 md:size-8" /> {content.hero.eyebrow}
             </p>
-            <h1 className="font-display text-4xl leading-[1.22] text-foreground sm:text-5xl md:text-8xl">
+            <h1 className="font-display text-2xl leading-[1.22] text-foreground sm:text-5xl md:text-8xl">
               {content.hero.title}
               <span className="gold-text block">{content.hero.titleHighlight}</span>
             </h1>
-            <p className="mt-7 max-w-xl text-base leading-8 text-foreground/75 md:text-lg">
+            <p className="mt-7 max-w-xl text-sm leading-6 text-foreground/75 md:text-lg md:leading-8">
               {content.hero.text}
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
@@ -215,7 +215,7 @@ function HomePage() {
           <div className="mx-auto max-w-5xl px-6 text-center md:px-10 relative z-10">
             {/* Centered Heading */}
             <Reveal>
-              <p className="mb-4 flex items-center justify-center gap-3 text-3xl md:text-4xl font-semibold tracking-wider text-primary">
+              <p className="mb-4 flex items-center justify-center gap-3 text-xl md:text-4xl font-semibold tracking-wider text-primary">
                 <span className="h-px w-8 bg-primary" /> {content.story.label} <span className="h-px w-8 bg-primary" />
               </p>
               <h2 className="font-display text-4xl leading-tight text-white md:text-6xl">
@@ -263,29 +263,29 @@ function HomePage() {
               title={content.features.title}
               text={content.features.text}
             />
-            <div className="flex flex-wrap justify-center gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
               {content.features.items.map((item, index) => {
                 const Icon = item.icon ? (ICON_MAP[item.icon] ?? Sparkles) : Sparkles;
                 return (
                   <Reveal 
                     key={index}
                     delay={(index % 3) * 100}
-                    className="w-[calc(50%-10px)] md:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] glass-card group relative overflow-hidden p-4 sm:p-5 md:p-9 transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] md:p-9"
+                    className="w-full glass-card group relative overflow-hidden p-2 sm:p-3 md:p-9 transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)]"
                   >
                     {/* Subtle inner glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     
                     <div className="relative z-10">
-                      <span className="mb-5 md:mb-8 flex size-10 md:size-12 items-center justify-center border border-gold-soft bg-black/40 text-primary backdrop-blur-md transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary group-hover:bg-primary/20 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
-                        <Icon className="size-4 md:size-5" />
+                      <span className="mb-3 md:mb-8 flex size-8 md:size-12 items-center justify-center border border-gold-soft bg-black/40 text-primary backdrop-blur-md transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary group-hover:bg-primary/20 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+                        <Icon className="size-5 md:size-6" />
                       </span>
                       <span className="mb-3 block text-xs font-bold tracking-widest text-primary/60 transition-colors duration-300 group-hover:text-primary">
                         0{index + 1}
                       </span>
-                      <h3 className="font-display text-lg md:text-2xl text-zinc-100 transition-colors duration-300 group-hover:text-primary">
+                      <h3 className="font-display text-sm md:text-2xl text-zinc-100 transition-colors duration-300 group-hover:text-primary">
                         {item.title}
                       </h3>
-                      <p className="mt-4 text-sm leading-7 text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
+                      <p className="mt-2 md:mt-4 text-xs md:text-sm leading-5 md:leading-7 text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
                         {item.text}
                       </p>
                     </div>
@@ -372,7 +372,7 @@ function HomePage() {
           <div className="absolute inset-0 bg-[#0a0602]/80 backdrop-blur-sm" />
           <div className="mx-auto flex max-w-5xl flex-col items-center px-6 text-center relative z-10">
           <Reveal>
-            <p className="mb-4 text-3xl md:text-4xl font-semibold tracking-wider text-primary">
+            <p className="mb-4 text-xl md:text-4xl font-semibold tracking-wider text-primary">
             {content.contact.label}
           </p>
           <h2 className="font-display text-4xl leading-tight md:text-6xl">{content.contact.title}</h2>
