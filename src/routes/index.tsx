@@ -152,7 +152,7 @@ function HomePage() {
       <SiteHeader />
 
       {/* ─── Hero Slider ─── */}
-      <section className="relative z-10 bg-transparent min-h-[94svh] overflow-hidden">
+      <section className="relative z-10 bg-transparent min-h-[60vh] md:min-h-[94svh] overflow-hidden">
         {heroSlides.map((image, index) => (
           <img
             key={image}
@@ -164,12 +164,12 @@ function HomePage() {
           />
         ))}
         <div className="hero-overlay absolute inset-0" />
-        <div className="relative z-10 mx-auto flex min-h-[94svh] max-w-7xl items-center px-6 pb-24 pt-36 md:px-10">
+        <div className="relative z-10 mx-auto flex min-h-[60vh] md:min-h-[94svh] max-w-7xl items-center px-6 pb-24 pt-36 md:px-10">
           <div className="max-w-3xl reveal-up">
             <p className="mb-6 flex items-center gap-3 text-3xl md:text-4xl font-semibold tracking-wider text-primary">
               <Sparkles className="size-6 md:size-8" /> {content.hero.eyebrow}
             </p>
-            <h1 className="font-display text-5xl leading-[1.22] text-foreground sm:text-6xl md:text-8xl">
+            <h1 className="font-display text-4xl leading-[1.22] text-foreground sm:text-5xl md:text-8xl">
               {content.hero.title}
               <span className="gold-text block">{content.hero.titleHighlight}</span>
             </h1>
@@ -270,19 +270,19 @@ function HomePage() {
                   <Reveal 
                     key={index}
                     delay={(index % 3) * 100}
-                    className="w-full md:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] glass-card group relative overflow-hidden p-7 transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] md:p-9"
+                    className="w-[calc(50%-10px)] md:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] glass-card group relative overflow-hidden p-4 sm:p-5 md:p-9 transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] md:p-9"
                   >
                     {/* Subtle inner glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     
                     <div className="relative z-10">
-                      <span className="mb-8 flex size-12 items-center justify-center border border-gold-soft bg-black/40 text-primary backdrop-blur-md transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary group-hover:bg-primary/20 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
-                        <Icon className="size-5" />
+                      <span className="mb-5 md:mb-8 flex size-10 md:size-12 items-center justify-center border border-gold-soft bg-black/40 text-primary backdrop-blur-md transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary group-hover:bg-primary/20 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+                        <Icon className="size-4 md:size-5" />
                       </span>
                       <span className="mb-3 block text-xs font-bold tracking-widest text-primary/60 transition-colors duration-300 group-hover:text-primary">
                         0{index + 1}
                       </span>
-                      <h3 className="font-display text-2xl text-zinc-100 transition-colors duration-300 group-hover:text-primary">
+                      <h3 className="font-display text-lg md:text-2xl text-zinc-100 transition-colors duration-300 group-hover:text-primary">
                         {item.title}
                       </h3>
                       <p className="mt-4 text-sm leading-7 text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">

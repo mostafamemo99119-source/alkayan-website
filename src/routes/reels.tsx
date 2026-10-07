@@ -62,11 +62,11 @@ export function ReelsPage() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center w-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-14 w-full max-w-7xl mx-auto py-10 px-4 justify-items-center">
+            <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-14 w-full max-w-7xl mx-auto py-10 pb-16 px-4 md:justify-items-center">
               {reels.map((reel) => (
                 <div 
                   key={reel.id}
-                  className="w-full max-w-[350px] sm:max-w-[400px] aspect-[9/16] h-auto relative rounded-3xl overflow-hidden border border-[#D4AF37]/40 shadow-2xl shadow-[#D4AF37]/10 bg-black/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[#D4AF37]/30 hover:border-[#D4AF37]/80 cursor-pointer"
+                  className="w-[70vw] sm:w-[50vw] max-h-[400px] md:max-h-none shrink-0 snap-center md:w-full max-w-[280px] md:max-w-[400px] aspect-[9/16] h-auto relative rounded-3xl overflow-hidden border border-[#D4AF37]/40 shadow-2xl shadow-[#D4AF37]/10 bg-black/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[#D4AF37]/30 hover:border-[#D4AF37]/80 cursor-pointer"
                 >
                   <iframe
                     src={getEmbedUrl(reel.youtube_url)}

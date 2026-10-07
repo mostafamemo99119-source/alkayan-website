@@ -98,7 +98,7 @@ function SpacesPage() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center w-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-14 w-full max-w-7xl mx-auto px-4 py-12 justify-items-center">
+            <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-14 w-full max-w-7xl mx-auto px-4 py-12 pb-16 md:justify-items-center">
               {data.map((space) => {
                 const image = space.space_images[0];
                 return (
@@ -106,11 +106,11 @@ function SpacesPage() {
                     key={space.id}
                     type="button"
                     onClick={() => setActive(space)}
-                    className="w-full max-w-[350px] sm:max-w-[400px] bg-gradient-to-b from-black/90 to-[#1a1a1a] border border-[#D4AF37]/30 transition-all duration-500 hover:-translate-y-2 hover:border-[#D4AF37] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] rounded-2xl overflow-hidden cursor-pointer group text-right block"
+                    className="w-[85vw] sm:w-[60vw] shrink-0 snap-center md:w-full max-w-[320px] md:max-w-[400px] bg-gradient-to-b from-black/90 to-[#1a1a1a] border border-[#D4AF37]/30 transition-all duration-500 hover:-translate-y-2 hover:border-[#D4AF37] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] rounded-2xl overflow-hidden cursor-pointer group text-right block"
                   >
                   {space.space_images && space.space_images.length > 0 && (
                     <div 
-                      className="aspect-[4/3] overflow-hidden bg-[#1f1008]/40 grid gap-1 p-1"
+                      className="aspect-[16/9] md:aspect-[4/3] overflow-hidden bg-[#1f1008]/40 grid gap-1 p-1"
                       style={{
                         gridTemplateColumns: space.space_images.length >= 3 ? "2fr 1fr" : space.space_images.length === 2 ? "1fr 1fr" : "1fr",
                         gridTemplateRows: space.space_images.length >= 3 ? "1fr 1fr" : "1fr"
