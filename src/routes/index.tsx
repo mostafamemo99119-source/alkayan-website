@@ -147,7 +147,7 @@ function HomePage() {
   }
 
   return (
-    <main id="top" dir="rtl" className="relative w-full min-h-screen overflow-hidden text-foreground">
+    <main id="top" dir="rtl" className="relative w-full max-w-full min-h-screen overflow-x-hidden text-foreground">
 
       <SiteHeader />
 
@@ -176,13 +176,13 @@ function HomePage() {
             <p className="mt-7 max-w-xl text-sm leading-6 text-foreground/75 md:text-lg md:leading-8">
               {content.hero.text}
             </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Button asChild>
-                <Link to="/spaces">
+            <div className="mt-9 flex flex-col sm:flex-row flex-wrap gap-3 w-full">
+              <Button asChild className="w-full sm:w-auto">
+                <Link to="/rooms">
                   {content.hero.primaryCta} <ArrowLeft className="size-4" />
                 </Link>
               </Button>
-              <Button asChild variant="glass">
+              <Button asChild variant="glass" className="w-full sm:w-auto">
                 <a href="#story">{content.hero.secondaryCta}</a>
               </Button>
             </div>
@@ -228,7 +228,7 @@ function HomePage() {
             </Reveal>
             
             {/* Centered Stats */}
-            <Reveal delay={200} className="mx-auto mt-10 grid max-w-3xl grid-cols-3 border-y border-white/10 py-6">
+            <Reveal delay={200} className="mx-auto mt-10 grid max-w-3xl grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-0 border-y border-white/10 py-6">
               {content.story.stats.map((stat) => (
                 <div key={stat.label}>
                   <strong className="font-display text-3xl text-primary md:text-4xl">{stat.value}</strong>
@@ -263,14 +263,14 @@ function HomePage() {
               title={content.features.title}
               text={content.features.text}
             />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
               {content.features.items.map((item, index) => {
                 const Icon = item.icon ? (ICON_MAP[item.icon] ?? Sparkles) : Sparkles;
                 return (
                   <Reveal 
                     key={index}
                     delay={(index % 3) * 100}
-                    className="w-full glass-card group relative overflow-hidden p-2 sm:p-3 md:p-9 transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)]"
+                    className="w-full md:w-auto mx-auto glass-card group relative overflow-hidden p-5 md:p-9 transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)]"
                   >
                     {/* Subtle inner glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -314,7 +314,7 @@ function HomePage() {
                   <Reveal
                     key={i}
                     delay={i * 100}
-                    className="group relative flex w-[350px] sm:w-[450px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-white/5 bg-[#0a0a0a]/80 p-6 backdrop-blur-md transition-all hover:border-primary/20 hover:bg-[#111]"
+                    className="group relative flex w-[85vw] sm:w-80 md:w-96 shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-white/5 bg-[#0a0a0a]/80 p-5 backdrop-blur-md transition-all hover:border-primary/20 hover:bg-[#111]"
                   >
                     {/* Header: Avatar, Name, Handle, Platform Icon */}
                     <div className="mb-4 flex items-start justify-between">
@@ -377,14 +377,14 @@ function HomePage() {
           </p>
           <h2 className="font-display text-4xl leading-tight md:text-6xl">{content.contact.title}</h2>
           <p className="mt-5 max-w-xl leading-8 text-muted-foreground">{content.contact.text}</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button asChild>
-              <Link to="/spaces">
+          <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center gap-3 w-full max-w-md mx-auto">
+            <Button asChild className="w-full sm:w-auto">
+              <Link to="/rooms">
                 {content.contact.cta} <ArrowLeft className="size-4" />
               </Link>
             </Button>
             {waLink && (
-              <Button asChild variant="glass">
+              <Button asChild variant="glass" className="w-full sm:w-auto">
                 <a href={waLink} target="_blank" rel="noopener noreferrer">
                   تواصل عبر واتساب <ArrowUpLeft className="size-4" />
                 </a>
@@ -433,7 +433,7 @@ function HomePage() {
       {/* ─── Luxury Contact & Footer ─── */}
       <footer id="contact-footer" className="relative z-10 border-t border-primary/20 bg-transparent pb-8 pt-20">
         <div className="mx-auto max-w-7xl px-6 md:px-10">
-          <div className="grid gap-12 md:grid-cols-3">
+          <div className="grid gap-10 md:grid-cols-3">
             
             {/* Column 1: Branding & Short About */}
             <div className="flex flex-col gap-4">

@@ -136,7 +136,7 @@ function RootShell({ children }: { children: ReactNode }) {
         </div>
 
         {/* حاوية محتوى الموقع */}
-        <div className="relative z-10">
+        <div className="relative z-10 w-full overflow-x-hidden">
           {children}
         </div>
         <Scripts />

@@ -76,12 +76,15 @@ export function SpaceGalleryModal({ space, onClose }: { space: Space | null; onC
                   
                   {space.pricing_packages && space.pricing_packages.length > 0 && (
                     <div className="mb-6 flex flex-col gap-3">
-                      <h4 className="mb-2 text-sm text-zinc-400">باقات الأسعار</h4>
-                      <div className="flex flex-wrap gap-3">
+                      <h4 className="mb-1 text-sm text-zinc-400">باقات الأسعار</h4>
+                      <div className="flex flex-col gap-3 w-full">
                         {space.pricing_packages.map((pkg, i) => (
-                          <div key={i} className="flex flex-col rounded-2xl border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-md transition-colors hover:bg-primary/5 hover:border-primary/50">
-                            <span className="text-sm text-zinc-400">{pkg.packageName}</span>
-                            <span className="mt-1 text-xl font-bold text-primary">{formatPrice(pkg.price)}</span>
+                          <div 
+                            key={i} 
+                            className="w-full flex items-center justify-between bg-black/50 border border-white/10 rounded-xl p-4 transition-all duration-300 hover:border-[#D4AF37] hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:-translate-y-1 hover:bg-black/80"
+                          >
+                            <span className="text-lg font-medium text-zinc-200">{pkg.packageName}</span>
+                            <span className="text-xl font-bold text-[#D4AF37]">{formatPrice(pkg.price)}</span>
                           </div>
                         ))}
                       </div>

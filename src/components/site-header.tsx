@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSiteSettings, defaultContent } from "@/lib/site-settings";
+import { TranslateButton } from "@/components/TranslateButton";
 
 export function Brand({ favicon, isNavbar = false }: { favicon?: string, isNavbar?: boolean }) {
   const defaultLogo = "https://skvdiqbhydwiwyxsjgzq.supabase.co/storage/v1/object/public/space-images/downlo1111ad.png";
@@ -71,19 +72,21 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-10 text-lg font-medium text-white/90 md:flex">
           <Link className="transition-colors hover:text-primary" to="/">{navbar.link1}</Link>
-          <Link className="transition-colors hover:text-primary" to="/spaces">{navbar.link2}</Link>
+          <Link className="transition-colors hover:text-primary" to="/rooms">{navbar.link2}</Link>
           <Link className="transition-colors hover:text-primary" to="/" hash="features">{navbar.link3}</Link>
           <Link className="transition-colors hover:text-primary" to="/reels">جولة في الكيان</Link>
           <a href="#contact-footer" onClick={handleScrollToContact} className="transition-colors hover:text-primary cursor-pointer">{navbar.link4}</a>
         </div>
 
-        {/* CTA Button (Desktop) & Mobile Toggle */}
+        {/* CTA Button (Desktop) & Translate & Mobile Toggle */}
         <div className="flex items-center gap-4">
+          <TranslateButton />
+
           <Button 
             asChild 
-            className="hidden h-12 border-primary/50 text-primary bg-transparent hover:bg-primary/10 hover:border-primary transition-all px-6 text-base font-medium shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_25px_rgba(212,175,55,0.25)] border md:flex"
+            className="hidden h-12 border-primary/50 text-primary bg-transparent hover:bg-primary/10 hover:border-primary transition-all px-6 text-base font-medium shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_25px_rgba(212,175,55,0.25)] border md:flex shrink-0"
           >
-            <Link to="/spaces">
+            <Link to="/rooms">
               {navbar.cta} <ArrowUpLeft className="mr-2 size-5" />
             </Link>
           </Button>
@@ -117,7 +120,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
           </div>
           <div className="mt-12 flex flex-col gap-6 text-right text-2xl font-display text-white">
             <Link onClick={() => setIsMobileMenuOpen(false)} to="/" className="active:text-primary">{navbar.link1}</Link>
-            <Link onClick={() => setIsMobileMenuOpen(false)} to="/spaces" className="active:text-primary">{navbar.link2}</Link>
+            <Link onClick={() => setIsMobileMenuOpen(false)} to="/rooms" className="active:text-primary">{navbar.link2}</Link>
             <Link onClick={() => setIsMobileMenuOpen(false)} to="/" hash="features" className="active:text-primary">{navbar.link3}</Link>
             <Link onClick={() => setIsMobileMenuOpen(false)} to="/reels" className="active:text-primary">جولة في الكيان</Link>
             <a onClick={handleScrollToContact} href="#contact-footer" className="active:text-primary cursor-pointer">{navbar.link4}</a>
@@ -128,7 +131,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
               asChild 
               className="w-full h-14 border-primary text-primary bg-primary/10 text-lg shadow-[0_0_15px_rgba(212,175,55,0.2)] border"
             >
-              <Link onClick={() => setIsMobileMenuOpen(false)} to="/spaces">
+              <Link onClick={() => setIsMobileMenuOpen(false)} to="/rooms">
                 {navbar.cta} <ArrowUpLeft className="mr-2 size-5" />
               </Link>
             </Button>

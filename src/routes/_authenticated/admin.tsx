@@ -11,12 +11,14 @@ import {
   Trash2,
   X,
   Video,
+  Layers,
 } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { z } from "zod";
 import { GeneralSettingsPanel } from "@/components/admin/GeneralSettingsPanel";
 import { ContactSettingsPanel } from "@/components/admin/ContactSettingsPanel";
 import { ReelsManager } from "@/components/admin/ReelsManager";
+import { RoomsSettingsPanel } from "@/components/admin/RoomsSettingsPanel";
 import { ImageManager } from "@/components/admin/ImageManager";
 import { Brand } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
@@ -45,6 +47,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
 const schema = z.object({
   name: z.string().trim().min(2).max(100),
   eyebrow: z.string().trim().min(2).max(120),
+  category: z.enum(["Full Time", "Share Time"]),
   description: z.string().trim().min(10).max(1200),
   capacity: z.string().trim().min(1).max(80),
   pricing_packages: z.array(z.object({
@@ -59,7 +62,7 @@ const schema = z.object({
    Tab type
 ───────────────────────────────────────────────────────────── */
 
-type Tab = "spaces" | "general" | "contact" | "reels";
+type Tab = "spaces" | "rooms" | "general" | "contact" | "reels";
 
 /* ─────────────────────────────────────────────────────────────
    Main AdminPage
@@ -120,6 +123,7 @@ function AdminPage() {
     const parsed = schema.safeParse({
       name: form.get("name"),
       eyebrow: form.get("eyebrow"),
+      category: form.get("category"),
       description: form.get("description"),
       capacity: form.get("capacity"),
       pricing_packages,
@@ -127,20 +131,43 @@ function AdminPage() {
       is_active: form.get("is_active") === "on",
     });
     if (!parsed.success) {
-      setError("تحقق من الحقول والقيم المدخلة. تأكد من إدخال اسم وسعر لكل باقة.");
+      setError("تحقق من الحقول والقيم المدخلة. تأكد من اختيار نوع الغرفة وإدخال اسم وسعر لكل باقة.");
       return;
     }
     setSaving(true);
 
-    const result =
-      editing === "new"
-        ? await supabase.from("spaces").insert(parsed.data).select("id").single()
+    // Embed category also in first pricing package to ensure 100% persistence in case DB column doesn't exist
+    const packagesWithCategory = parsed.data.pricing_packages.map(p => ({
+      ...p,
+      category: parsed.data.category,
+    }));
+
+    const spacePayload = {
+      ...parsed.data,
+      pricing_packages: packagesWithCategory,
+    };
+
+    let result = editing === "new"
+      ? await supabase.from("spaces").insert(spacePayload).select("id").single()
+      : await supabase
+          .from("spaces")
+          .update({ ...spacePayload, updated_at: new Date().toISOString() })
+          .eq("id", editing?.id ?? "")
+          .select("id")
+          .single();
+
+    // If column 'category' does not exist in spaces table, fallback without top-level category field
+    if (result.error && result.error.message?.includes("category")) {
+      const { category, ...payloadWithoutCategory } = spacePayload;
+      result = editing === "new"
+        ? await supabase.from("spaces").insert(payloadWithoutCategory).select("id").single()
         : await supabase
             .from("spaces")
-            .update({ ...parsed.data, updated_at: new Date().toISOString() })
+            .update({ ...payloadWithoutCategory, updated_at: new Date().toISOString() })
             .eq("id", editing?.id ?? "")
             .select("id")
             .single();
+    }
 
     if (result.error) {
       setError(result.error.message);
@@ -231,6 +258,7 @@ function AdminPage() {
   /* ── Tab navigation items ── */
   const tabs: { id: Tab; label: string; icon: React.ElementType }[] = [
     { id: "spaces", label: "إدارة المساحات", icon: LayoutDashboard },
+    { id: "rooms", label: "محتوى أنظمة العمل", icon: Layers },
     { id: "general", label: "الإعدادات العامة", icon: Settings },
     { id: "contact", label: "التواصل والسوشيال", icon: Contact },
     { id: "reels", label: "مقاطع الفيديو (Reels)", icon: Video },
@@ -310,6 +338,7 @@ function AdminPage() {
                   <thead className="bg-surface text-xs text-muted-foreground">
                     <tr>
                       <th className="p-4">المساحة</th>
+                      <th className="p-4">النوع</th>
                       <th className="p-4">السعة</th>
                       <th className="p-4">الأسعار</th>
                       <th className="p-4">الحالة</th>
@@ -322,6 +351,11 @@ function AdminPage() {
                         <td className="p-4 font-semibold">
                           {space.name}
                           <small className="block text-muted-foreground">{space.space_images.length} صور</small>
+                        </td>
+                        <td className="p-4">
+                          <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold ${space.category === "Share Time" ? "bg-amber-500/20 text-amber-400 border border-amber-500/30" : "bg-primary/20 text-primary border border-primary/30"}`}>
+                            {space.category || "Full Time"}
+                          </span>
                         </td>
                         <td className="p-4 text-sm">{space.capacity}</td>
                         <td className="p-4 text-sm">
@@ -349,6 +383,22 @@ function AdminPage() {
                   </tbody>
                 </table>
               )}
+            </div>
+          </>
+        )}
+
+        {/* ════════ TAB: Rooms Content ════════ */}
+        {activeTab === "rooms" && (
+          <>
+            <div className="mb-8">
+              <p className="text-xs text-primary">لوحة التحكم</p>
+              <h1 className="mt-2 font-display text-4xl">إعدادات نصوص الغرف وأنظمة العمل</h1>
+              <p className="mt-2 text-sm text-muted-foreground">
+                تحكم في العناوين والشارات والوصف التعريفي لأنظمة الـ Full Time والـ Share Time التي تظهر للعملاء.
+              </p>
+            </div>
+            <div className="glass-card p-6 md:p-8">
+              <RoomsSettingsPanel onSaved={refreshSettings} />
             </div>
           </>
         )}
@@ -419,6 +469,20 @@ function AdminPage() {
             <div className="mt-7 grid gap-5 md:grid-cols-2">
               <Field label="اسم المساحة" name="name" defaultValue={value?.name} />
               <Field label="العبارة القصيرة" name="eyebrow" defaultValue={value?.eyebrow} />
+              
+              <label>
+                نوع الغرفة / التصنيف
+                <select
+                  name="category"
+                  required
+                  defaultValue={value?.category || "Full Time"}
+                  className="admin-input mt-2 bg-background text-foreground"
+                >
+                  <option value="Full Time">Full Time (دوام كامل)</option>
+                  <option value="Share Time">Share Time (مشاركة / ساعات)</option>
+                </select>
+              </label>
+
               <Field label="السعة" name="capacity" defaultValue={value?.capacity} />
               <Field
                 label="ترتيب العرض"

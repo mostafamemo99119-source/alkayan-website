@@ -39,7 +39,7 @@ export function ReelsPage() {
   });
 
   return (
-    <main id="top" dir="rtl" className="relative w-full min-h-screen overflow-hidden text-foreground">
+    <main id="top" dir="rtl" className="relative w-full max-w-full min-h-screen overflow-x-hidden text-foreground">
       <SiteHeader solid={true} />
       
       <section className="relative z-10 pt-36 pb-24 px-6 md:px-10 max-w-7xl mx-auto min-h-screen">
