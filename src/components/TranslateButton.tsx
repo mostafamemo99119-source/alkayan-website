@@ -122,10 +122,10 @@ export function TranslateButton() {
       <button
         type="button"
         onClick={toggleLanguage}
-        className="flex items-center gap-2 h-11 md:h-12 bg-black/60 backdrop-blur-md border border-[#D4AF37]/50 hover:border-[#D4AF37] text-[#D4AF37] text-sm md:text-base font-semibold px-4 md:px-5 rounded-xl shadow-md hover:bg-[#D4AF37] hover:text-black transition-all duration-300 cursor-pointer select-none shrink-0"
+        className="flex items-center gap-1.5 md:gap-2 h-9 md:h-11 bg-black/60 backdrop-blur-md border border-[#D4AF37]/50 hover:border-[#D4AF37] text-[#D4AF37] text-xs sm:text-sm md:text-base font-semibold px-2.5 sm:px-4 rounded-lg md:rounded-xl shadow-md hover:bg-[#D4AF37] hover:text-black transition-all duration-300 cursor-pointer select-none shrink-0"
         aria-label="تبديل اللغة / Toggle Language"
       >
-        <Globe className="size-4 md:size-5 shrink-0" />
+        <Globe className="size-3.5 sm:size-4 md:size-5 shrink-0" />
         <span>{currentLang === "ar" ? "English" : "عربي"}</span>
       </button>
     </>

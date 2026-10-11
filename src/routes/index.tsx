@@ -70,12 +70,12 @@ function TikTokIcon({ className }: { className?: string }) {
 
 function SectionHeading({ label, title, text }: { label: string; title: string; text?: string }) {
   return (
-    <Reveal className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
-      <p className="mb-4 flex items-center justify-center gap-3 text-xl md:text-4xl font-semibold tracking-wider text-primary">
-        <span className="h-px w-8 bg-primary" /> {label} <span className="h-px w-8 bg-primary" />
+    <Reveal className="mx-auto mb-8 max-w-2xl text-center md:mb-16 px-4">
+      <p className="mb-3 flex items-center justify-center gap-2 text-sm sm:text-base md:text-xl font-semibold tracking-wider text-primary">
+        <span className="h-px w-6 sm:w-8 bg-primary" /> {label} <span className="h-px w-6 sm:w-8 bg-primary" />
       </p>
-      <h2 className="font-display text-4xl leading-tight text-foreground md:text-6xl">{title}</h2>
-      {text && <p className="mt-5 leading-8 text-muted-foreground">{text}</p>}
+      <h2 className="font-display text-2xl sm:text-3xl md:text-5xl lg:text-6xl leading-snug md:leading-tight text-foreground">{title}</h2>
+      {text && <p className="mt-3 md:mt-5 text-xs sm:text-sm md:text-base leading-relaxed md:leading-8 text-muted-foreground">{text}</p>}
     </Reveal>
   );
 }
@@ -152,7 +152,7 @@ function HomePage() {
       <SiteHeader />
 
       {/* ─── Hero Slider ─── */}
-      <section className="relative z-10 bg-transparent h-[40vh] md:h-auto md:min-h-[94svh] overflow-hidden">
+      <section className="relative z-10 bg-transparent min-h-[85vh] md:min-h-[94svh] flex items-center overflow-hidden pt-28 md:pt-32">
         {heroSlides.map((image, index) => (
           <img
             key={image}
@@ -164,19 +164,19 @@ function HomePage() {
           />
         ))}
         <div className="hero-overlay absolute inset-0" />
-        <div className="relative z-10 mx-auto flex h-[40vh] md:h-auto md:min-h-[94svh] max-w-7xl items-center px-6 pb-10 pt-20 md:pb-24 md:pt-36 md:px-10">
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl items-center px-4 sm:px-6 pb-16 pt-4 md:pb-24 md:pt-16 md:px-10">
           <div className="max-w-3xl reveal-up">
-            <p className="mb-6 flex items-center gap-3 text-xl md:text-4xl font-semibold tracking-wider text-primary">
-              <Sparkles className="size-4 md:size-8" /> {content.hero.eyebrow}
+            <p className="mb-4 md:mb-6 flex items-center gap-2 md:gap-3 text-sm sm:text-base md:text-2xl font-semibold tracking-wider text-primary">
+              <Sparkles className="size-4 md:size-6" /> {content.hero.eyebrow}
             </p>
-            <h1 className="font-display text-2xl leading-[1.22] text-foreground sm:text-5xl md:text-8xl">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-snug md:leading-[1.2] text-foreground">
               {content.hero.title}
               <span className="gold-text block">{content.hero.titleHighlight}</span>
             </h1>
-            <p className="mt-7 max-w-xl text-sm leading-6 text-foreground/75 md:text-lg md:leading-8">
+            <p className="mt-4 md:mt-7 max-w-xl text-xs sm:text-sm md:text-lg leading-relaxed md:leading-8 text-foreground/80">
               {content.hero.text}
             </p>
-            <div className="mt-9 flex flex-col sm:flex-row flex-wrap gap-3 w-full">
+            <div className="mt-8 md:mt-9 flex flex-col sm:flex-row flex-wrap gap-3 w-full">
               <Button asChild className="w-full sm:w-auto">
                 <Link to="/rooms">
                   {content.hero.primaryCta} <ArrowLeft className="size-4" />
@@ -210,19 +210,19 @@ function HomePage() {
       {/* ─── Middle Sections Wrapper (Unified Background) ─── */}
       <div className="relative z-10 bg-transparent">
         {/* ─── Story ─── */}
-        <section id="story" className="section-shell relative z-10 bg-cover bg-center bg-fixed py-24 md:py-32" style={{ backgroundImage: (content?.story?.statsBgImage) ? 'url(' + content.story.statsBgImage + ')' : 'url(https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1920)' }}>
+        <section id="story" className="section-shell relative z-10 bg-cover bg-center bg-fixed py-16 md:py-32" style={{ backgroundImage: (content?.story?.statsBgImage) ? 'url(' + content.story.statsBgImage + ')' : 'url(https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1920)' }}>
           <div className="absolute inset-0 bg-[#0a0602]/90 backdrop-blur-[2px]" />
-          <div className="mx-auto max-w-5xl px-6 text-center md:px-10 relative z-10">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 text-center md:px-10 relative z-10">
             {/* Centered Heading */}
             <Reveal>
-              <p className="mb-4 flex items-center justify-center gap-3 text-xl md:text-4xl font-semibold tracking-wider text-primary">
-                <span className="h-px w-8 bg-primary" /> {content.story.label} <span className="h-px w-8 bg-primary" />
+              <p className="mb-3 md:mb-4 flex items-center justify-center gap-2 md:gap-3 text-sm sm:text-base md:text-xl font-semibold tracking-wider text-primary">
+                <span className="h-px w-6 sm:w-8 bg-primary" /> {content.story.label} <span className="h-px w-6 sm:w-8 bg-primary" />
               </p>
-              <h2 className="font-display text-4xl leading-tight text-white md:text-6xl">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-5xl lg:text-6xl leading-snug md:leading-tight text-white">
                 {content.story.title}
-                <span className="gold-text mt-3 block">{content.story.titleHighlight}</span>
+                <span className="gold-text mt-2 sm:mt-3 block">{content.story.titleHighlight}</span>
               </h2>
-              <p className="mx-auto mt-6 max-w-2xl leading-8 text-zinc-400">
+              <p className="mx-auto mt-4 md:mt-6 max-w-2xl text-xs sm:text-sm md:text-base leading-relaxed md:leading-8 text-zinc-400">
                 {content.story.text}
               </p>
             </Reveal>
@@ -253,11 +253,11 @@ function HomePage() {
         {/* ─── Features ─── */}
         <section 
           id="features"
-          className="relative z-10 w-full overflow-hidden py-32 border-none bg-transparent"
+          className="relative z-10 w-full overflow-hidden py-16 md:py-32 border-none bg-transparent"
         >
 
           {/* حاوية المحتوى */}
-          <div className="relative z-10 container mx-auto px-6 md:px-10">
+          <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-10">
             <SectionHeading
               label={content.features.label}
               title={content.features.title}
@@ -270,7 +270,7 @@ function HomePage() {
                   <Reveal 
                     key={index}
                     delay={(index % 3) * 100}
-                    className="w-full md:w-auto mx-auto glass-card group relative overflow-hidden p-5 md:p-9 transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)]"
+                    className="w-full mx-auto glass-card group relative overflow-hidden p-5 md:p-9 transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)]"
                   >
                     {/* Subtle inner glow on hover */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -282,7 +282,7 @@ function HomePage() {
                       <span className="mb-3 block text-xs font-bold tracking-widest text-primary/60 transition-colors duration-300 group-hover:text-primary">
                         0{index + 1}
                       </span>
-                      <h3 className="font-display text-sm md:text-2xl text-zinc-100 transition-colors duration-300 group-hover:text-primary">
+                      <h3 className="font-display text-base md:text-2xl text-zinc-100 transition-colors duration-300 group-hover:text-primary">
                         {item.title}
                       </h3>
                       <p className="mt-2 md:mt-4 text-xs md:text-sm leading-5 md:leading-7 text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
@@ -298,14 +298,14 @@ function HomePage() {
 
         {/* ─── Testimonials ─── */}
         {content.testimonials && content.testimonials.length > 0 && (
-          <section className="relative z-10 bg-transparent border-t border-white/10 py-24 md:py-32">
+          <section className="relative z-10 bg-transparent border-t border-white/10 py-16 md:py-32">
             <SectionHeading label="آراء العملاء" title="ماذا يقولون عنا" />
-            <div className="w-full overflow-hidden py-10 relative">
+            <div className="w-full overflow-hidden py-6 md:py-10 relative">
               {/* Fade edges */}
-              <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 md:w-24 bg-gradient-to-r from-background to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 md:w-24 bg-gradient-to-l from-background to-transparent" />
               
-              <div className="flex w-max animate-marquee gap-8 px-4 hover:[animation-play-state:paused]">
+              <div className="flex w-max animate-marquee gap-4 md:gap-8 px-4 hover:[animation-play-state:paused]">
                 {[...content.testimonials, ...content.testimonials, ...content.testimonials].map((t, i) => {
                   const platform = (t as any).platform || "twitter";
                   const PlatformIcon = platform === "twitter" ? Twitter : platform === "linkedin" ? Linkedin : platform === "facebook" ? Facebook : Star;
@@ -368,15 +368,15 @@ function HomePage() {
         )}
 
         {/* ─── Contact CTA ─── */}
-        <section id="contact" className="relative z-10 bg-cover bg-center bg-fixed border-y border-white/10 py-24 md:py-32" style={{ backgroundImage: content?.contact?.contactBgImage ? `url(${content.contact.contactBgImage})` : `url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=1920')` }}>
+        <section id="contact" className="relative z-10 bg-cover bg-center bg-fixed border-y border-white/10 py-16 md:py-32" style={{ backgroundImage: content?.contact?.contactBgImage ? `url(${content.contact.contactBgImage})` : `url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=1920')` }}>
           <div className="absolute inset-0 bg-[#0a0602]/80 backdrop-blur-sm" />
-          <div className="mx-auto flex max-w-5xl flex-col items-center px-6 text-center relative z-10">
+          <div className="mx-auto flex max-w-5xl flex-col items-center px-4 sm:px-6 text-center relative z-10 w-full">
           <Reveal>
-            <p className="mb-4 text-xl md:text-4xl font-semibold tracking-wider text-primary">
+            <p className="mb-3 text-lg md:text-3xl font-semibold tracking-wider text-primary">
             {content.contact.label}
           </p>
-          <h2 className="font-display text-4xl leading-tight md:text-6xl">{content.contact.title}</h2>
-          <p className="mt-5 max-w-xl leading-8 text-muted-foreground">{content.contact.text}</p>
+          <h2 className="font-display text-2xl sm:text-3xl md:text-5xl lg:text-6xl leading-snug md:leading-tight">{content.contact.title}</h2>
+          <p className="mt-4 max-w-xl text-sm md:text-base leading-relaxed md:leading-8 text-muted-foreground">{content.contact.text}</p>
           <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center gap-3 w-full max-w-md mx-auto">
             <Button asChild className="w-full sm:w-auto">
               <Link to="/rooms">
@@ -398,21 +398,21 @@ function HomePage() {
 
       {/* ─── Location Map ─── */}
       {(content.contact.googleMapUrl || content.contact.address) && (
-        <section className="relative z-10 bg-transparent pb-20 pt-10">
-          <div className="mx-auto max-w-7xl px-6 md:px-10">
+        <section className="relative z-10 bg-transparent pb-16 md:pb-20 pt-8 md:pt-10">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
             <Reveal>
-              <div className="mb-10 text-center flex flex-col items-center">
-                <h3 className="font-display text-3xl md:text-4xl text-zinc-100 flex items-center justify-center gap-3">
+              <div className="mb-6 md:mb-10 text-center flex flex-col items-center">
+                <h3 className="font-display text-2xl sm:text-3xl md:text-4xl text-zinc-100 flex items-center justify-center gap-3">
                   موقعنا
-                  <MapPin className="size-8 text-primary" />
+                  <MapPin className="size-6 md:size-8 text-primary" />
                 </h3>
                 {content.contact.address && (
-                  <p className="mt-4 max-w-xl text-lg text-zinc-400">{content.contact.address}</p>
+                  <p className="mt-3 md:mt-4 max-w-xl text-sm md:text-lg text-zinc-400">{content.contact.address}</p>
                 )}
               </div>
               
-              <div className="overflow-hidden rounded-2xl border border-primary/20 bg-white/5 backdrop-blur-md p-2 shadow-[0_0_30px_rgba(212,175,55,0.05)]">
-                <div className="relative h-[350px] md:h-[450px] w-full overflow-hidden rounded-xl bg-[#0a0602]">
+              <div className="overflow-hidden rounded-2xl border border-primary/20 bg-white/5 backdrop-blur-md p-1.5 md:p-2 shadow-[0_0_30px_rgba(212,175,55,0.05)] w-full">
+                <div className="relative h-[280px] sm:h-[350px] md:h-[450px] w-full overflow-hidden rounded-xl bg-[#0a0602]">
                   <iframe
                     src={content.contact.googleMapUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106653.07255979201!2d44.351659936830744!3d33.31174984186591!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15577f67a0a74193%3A0x9deda9d2a3b16f2c!2sBaghdad%2C%20Iraq!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"}
                     width="100%"
@@ -431,8 +431,8 @@ function HomePage() {
       )}
 
       {/* ─── Luxury Contact & Footer ─── */}
-      <footer id="contact-footer" className="relative z-10 border-t border-primary/20 bg-transparent pb-8 pt-20">
-        <div className="mx-auto max-w-7xl px-6 md:px-10">
+      <footer id="contact-footer" className="relative z-10 border-t border-primary/20 bg-transparent pb-8 pt-12 md:pt-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
           <div className="grid gap-10 md:grid-cols-3">
             
             {/* Column 1: Branding & Short About */}

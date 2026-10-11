@@ -6,20 +6,16 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchSiteSettings, defaultContent } from "@/lib/site-settings";
 import { TranslateButton } from "@/components/TranslateButton";
 
-export function Brand({ favicon, isNavbar = false }: { favicon?: string, isNavbar?: boolean }) {
+export function Brand({ favicon }: { favicon?: string; isNavbar?: boolean }) {
   const defaultLogo = "https://skvdiqbhydwiwyxsjgzq.supabase.co/storage/v1/object/public/space-images/downlo1111ad.png";
   
   return (
-    <Link to="/" className="flex items-center relative z-50" aria-label="الكيان - الصفحة الرئيسية">
+    <Link to="/" className="flex items-center relative z-50 shrink-0" aria-label="الكيان - الصفحة الرئيسية">
       <img 
         src={favicon && favicon !== "" ? favicon : defaultLogo} 
-        className={`w-32 md:w-40 h-auto object-contain opacity-100 ${
-          isNavbar ? "absolute top-1/2 right-0 -translate-y-1/2 pointer-events-none" : ""
-        }`} 
+        className="h-12 md:h-14 w-auto object-contain opacity-100" 
         alt="شعار الكيان" 
       />
-      {/* Invisible spacer to maintain layout space when the image is absolute */}
-      {isNavbar && <div className="w-32 md:w-40" />}
     </Link>
   );
 }
@@ -58,13 +54,9 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
   };
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 overflow-visible ${isScrolled ? "py-1" : "py-2 md:py-4"}`}>
+    <header className="fixed top-0 left-0 w-full z-50 bg-black/20 backdrop-blur-md py-2 border-b border-primary/20 transition-all">
       <nav 
-        className={`mx-auto flex max-w-7xl items-center justify-between px-4 transition-all duration-500 md:px-8 overflow-visible ${
-          isScrolled 
-            ? "bg-black/60 backdrop-blur-xl shadow-2xl shadow-black/40 md:rounded-2xl border border-primary/20 py-2 md:py-1.5" 
-            : "bg-transparent py-2"
-        }`} 
+        className="mx-auto flex max-w-7xl items-center justify-between px-4 md:px-8" 
         aria-label="التنقل الرئيسي"
       >
         <Brand favicon={content.seo?.favicon} isNavbar={true} />
@@ -79,12 +71,12 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
         </div>
 
         {/* CTA Button (Desktop) & Translate & Mobile Toggle */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 shrink-0">
           <TranslateButton />
 
           <Button 
             asChild 
-            className="hidden h-12 border-primary/50 text-primary bg-transparent hover:bg-primary/10 hover:border-primary transition-all px-6 text-base font-medium shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_25px_rgba(212,175,55,0.25)] border md:flex shrink-0"
+            className="hidden h-11 border-primary/50 text-primary bg-transparent hover:bg-primary/10 hover:border-primary transition-all px-5 text-sm md:text-base font-medium shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_25px_rgba(212,175,55,0.25)] border md:flex shrink-0"
           >
             <Link to="/rooms">
               {navbar.cta} <ArrowUpLeft className="mr-2 size-5" />
@@ -92,11 +84,11 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
           </Button>
 
           <button 
-            className="flex p-2 text-primary md:hidden"
+            className="flex p-1.5 sm:p-2 text-primary md:hidden"
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="افتح القائمة"
           >
-            <Menu className="size-7" />
+            <Menu className="size-6 sm:size-7" />
           </button>
         </div>
       </nav>
