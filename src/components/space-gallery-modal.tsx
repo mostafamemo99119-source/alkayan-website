@@ -90,6 +90,21 @@ export function SpaceGalleryModal({ space, onClose }: { space: Space | null; onC
                       </div>
                     </div>
                   )}
+
+                  {space.youtubeLink && (
+                    <div className="mb-6">
+                      <a
+                        href={space.youtubeLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center justify-center gap-3 w-full py-3.5 px-4 rounded-xl border border-red-500/40 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all font-medium text-sm shadow-lg shadow-red-500/5 group"
+                      >
+                        <span className="size-2.5 rounded-full bg-red-500 animate-ping" />
+                        مشاهدة جولة الفيديو على يوتيوب
+                        <ArrowUpLeft className="size-4 transform group-hover:-translate-x-1 transition-transform" />
+                      </a>
+                    </div>
+                  )}
                 </div>
 
                 {/* Fixed CTA at the bottom */}

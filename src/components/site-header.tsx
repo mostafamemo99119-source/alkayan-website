@@ -13,7 +13,7 @@ export function Brand({ favicon }: { favicon?: string; isNavbar?: boolean }) {
     <Link to="/" className="flex items-center relative z-50 shrink-0" aria-label="الكيان - الصفحة الرئيسية">
       <img 
         src={favicon && favicon !== "" ? favicon : defaultLogo} 
-        className="h-12 md:h-14 w-auto object-contain opacity-100" 
+        className="h-24 md:h-[110px] w-auto relative -mb-[60px] z-[100] drop-shadow-2xl transition-transform hover:scale-105" 
         alt="شعار الكيان" 
       />
     </Link>
@@ -54,7 +54,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-black/20 backdrop-blur-md py-2 border-b border-primary/20 transition-all">
+    <header className="fixed top-0 left-0 w-full z-50 bg-black/20 backdrop-blur-md py-4 border-b border-primary/20 transition-all">
       <nav 
         className="mx-auto flex max-w-7xl items-center justify-between px-4 md:px-8" 
         aria-label="التنقل الرئيسي"
