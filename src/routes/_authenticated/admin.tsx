@@ -147,41 +147,62 @@ function AdminPage() {
     setSaving(true);
 
     // Embed category & youtubeLink also in first pricing package to ensure 100% persistence in case DB column doesn't exist
+    // Embed category & youtubeLink inside pricing_packages JSON which is a valid Json column in spaces table
     const packagesWithCategory = parsed.data.pricing_packages.map(p => ({
       ...p,
       category: parsed.data.category,
       youtubeLink: parsed.data.youtubeLink || "",
     }));
 
-    const spacePayload = {
-      ...parsed.data,
+    // Standard columns existing in 'spaces' table schema
+    const baseSpacePayload = {
+      name: parsed.data.name,
+      eyebrow: parsed.data.eyebrow,
+      description: parsed.data.description,
+      capacity: parsed.data.capacity,
+      display_order: parsed.data.display_order,
+      is_active: parsed.data.is_active,
       pricing_packages: packagesWithCategory,
     };
 
+    // Try with additional columns if they exist in DB, fallback gracefully if not
     let result = editing === "new"
-      ? await supabase.from("spaces").insert(spacePayload).select("id").single()
+      ? await supabase.from("spaces").insert({
+          ...baseSpacePayload,
+          ...(parsed.data.category ? { category: parsed.data.category } : {}),
+          ...(parsed.data.youtubeLink ? { youtubeLink: parsed.data.youtubeLink } : {}),
+        } as any).select("id").single()
       : await supabase
           .from("spaces")
-          .update({ ...spacePayload, updated_at: new Date().toISOString() })
+          .update({
+            ...baseSpacePayload,
+            ...(parsed.data.category ? { category: parsed.data.category } : {}),
+            ...(parsed.data.youtubeLink ? { youtubeLink: parsed.data.youtubeLink } : {}),
+            updated_at: new Date().toISOString(),
+          } as any)
           .eq("id", editing?.id ?? "")
           .select("id")
           .single();
 
-    // If column 'category' or 'youtubeLink' does not exist in spaces table, fallback cleanly
-    if (result.error && (result.error.message?.includes("category") || result.error.message?.includes("youtubeLink") || result.error.message?.includes("column"))) {
-      const { category, youtubeLink, ...payloadFallback } = spacePayload;
+    // If 400 or column error due to extra columns (category/youtubeLink) not present in table definition:
+    if (result.error) {
+      console.warn("First attempt failed, falling back to base verified columns:", result.error);
       result = editing === "new"
-        ? await supabase.from("spaces").insert(payloadFallback).select("id").single()
+        ? await supabase.from("spaces").insert(baseSpacePayload).select("id").single()
         : await supabase
             .from("spaces")
-            .update({ ...payloadFallback, updated_at: new Date().toISOString() })
+            .update({
+              ...baseSpacePayload,
+              updated_at: new Date().toISOString(),
+            })
             .eq("id", editing?.id ?? "")
             .select("id")
             .single();
     }
 
     if (result.error) {
-      setError(result.error.message);
+      console.error("Save error:", result.error);
+      setError(result.error.message || "حدث خطأ أثناء حفظ البيانات (400 Bad Request)");
       setSaving(false);
       return;
     }
