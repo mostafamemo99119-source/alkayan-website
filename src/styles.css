@@ -363,9 +363,9 @@ body {
 }
 
 html, body, #root {
+  min-width: 1280px !important;
   width: 100% !important;
-  min-width: 100vw !important;
-  overflow-x: hidden !important;
   margin: 0 !important;
   padding: 0 !important;
+  overflow-x: auto !important;
 }
