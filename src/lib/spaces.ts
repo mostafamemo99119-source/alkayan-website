@@ -16,6 +16,7 @@ export type Space = {
   is_active: boolean;
   display_order: number;
   space_images: SpaceImage[];
+  youtubeLink?: string;
 };
 
 export function getSpaceImageUrl(image: SpaceImage) {
@@ -59,5 +60,6 @@ export async function fetchSpaces(includeInactive = false) {
     category: (space.category as SpaceCategory) || (space.pricing_packages?.[0]?.category as SpaceCategory) || "Full Time",
     pricing_packages: (space.pricing_packages as PricingPackage[]) || [],
     space_images: imagesBySpace[space.id] || [],
+    youtubeLink: space.youtubeLink || space.pricing_packages?.[0]?.youtubeLink || undefined,
   })) as Space[];
 }

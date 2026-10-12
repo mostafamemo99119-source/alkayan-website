@@ -56,6 +56,7 @@ const schema = z.object({
   })),
   display_order: z.coerce.number().int().min(0),
   is_active: z.boolean(),
+  youtubeLink: z.string().trim().optional(),
 });
 
 /* ─────────────────────────────────────────────────────────────
@@ -92,12 +93,20 @@ function AdminPage() {
   // ── Space form state ──
   const [editing, setEditing] = useState<Space | null | "new">(null);
   const [newImages, setNewImages] = useState<File[]>([]);
+  const [youtubeLink, setYoutubeLink] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!editing) setNewImages([]);
+    if (!editing) {
+      setNewImages([]);
+      setYoutubeLink("");
+    } else if (editing !== "new") {
+      setYoutubeLink(editing.youtubeLink || "");
+    } else {
+      setYoutubeLink("");
+    }
   }, [editing]);
 
   async function refreshSpaces() {
@@ -129,6 +138,7 @@ function AdminPage() {
       pricing_packages,
       display_order: form.get("display_order"),
       is_active: form.get("is_active") === "on",
+      youtubeLink: (form.get("youtubeLink") as string) || undefined,
     });
     if (!parsed.success) {
       setError("تحقق من الحقول والقيم المدخلة. تأكد من اختيار نوع الغرفة وإدخال اسم وسعر لكل باقة.");
@@ -136,10 +146,11 @@ function AdminPage() {
     }
     setSaving(true);
 
-    // Embed category also in first pricing package to ensure 100% persistence in case DB column doesn't exist
+    // Embed category & youtubeLink also in first pricing package to ensure 100% persistence in case DB column doesn't exist
     const packagesWithCategory = parsed.data.pricing_packages.map(p => ({
       ...p,
       category: parsed.data.category,
+      youtubeLink: parsed.data.youtubeLink || "",
     }));
 
     const spacePayload = {
@@ -156,14 +167,14 @@ function AdminPage() {
           .select("id")
           .single();
 
-    // If column 'category' does not exist in spaces table, fallback without top-level category field
-    if (result.error && result.error.message?.includes("category")) {
-      const { category, ...payloadWithoutCategory } = spacePayload;
+    // If column 'category' or 'youtubeLink' does not exist in spaces table, fallback cleanly
+    if (result.error && (result.error.message?.includes("category") || result.error.message?.includes("youtubeLink") || result.error.message?.includes("column"))) {
+      const { category, youtubeLink, ...payloadFallback } = spacePayload;
       result = editing === "new"
-        ? await supabase.from("spaces").insert(payloadWithoutCategory).select("id").single()
+        ? await supabase.from("spaces").insert(payloadFallback).select("id").single()
         : await supabase
             .from("spaces")
-            .update({ ...payloadWithoutCategory, updated_at: new Date().toISOString() })
+            .update({ ...payloadFallback, updated_at: new Date().toISOString() })
             .eq("id", editing?.id ?? "")
             .select("id")
             .single();
@@ -513,8 +524,8 @@ function AdminPage() {
                 />
               </label>
               <ImageManager
-                title="صور المساحة"
-                subtitle="أضف صوراً جذابة تبرز جمالية المكان"
+                title="معرض الوسائط (صور وفيديو)"
+                subtitle="أضف صوراً عالية الجودة ورابط جولة فيديو لزيادة الجاذبية"
                 images={value?.space_images?.map(img => ({ id: img.id, url: getSpaceImageUrl(img), alt: img.alt_text })) || []}
                 newImages={newImages}
                 onNewImagesChange={setNewImages}
@@ -522,6 +533,8 @@ function AdminPage() {
                   const img = value?.space_images.find(i => i.id === id);
                   if (img) removeImage(value, img.id, img.storage_path);
                 }}
+                youtubeLink={youtubeLink}
+                onYoutubeLinkChange={setYoutubeLink}
               />
             </div>
 
