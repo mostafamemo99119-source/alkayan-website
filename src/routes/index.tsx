@@ -7,7 +7,7 @@ import {
   Coffee,
   MonitorPlay,
   Sparkles,
-  Wifi,
+  Wifi,22
   Facebook,
   Instagram,
   Twitter,
