@@ -1,18 +1,32 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { ArrowUpLeft, ChevronLeft, ChevronRight, Users, X } from "lucide-react";
+import { ArrowUpLeft, ChevronLeft, ChevronRight, Users, X, Play, Image as ImageIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { getSpaceImageUrl, formatPrice, type Space } from "@/lib/spaces";
 import { useQuery } from "@tanstack/react-query";
 import { siteSettingsQuery, whatsappLink } from "@/lib/site-settings";
 
+function getYouTubeEmbedUrl(url?: string): string | null {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? `https://www.youtube.com/embed/${match[2]}` : null;
+}
+
 export function SpaceGalleryModal({ space, onClose }: { space: Space | null; onClose: () => void }) {
   const [current, setCurrent] = useState(0);
-  useEffect(() => setCurrent(0), [space?.id]);
+  const [viewMode, setViewMode] = useState<"image" | "video">("image");
+
+  useEffect(() => {
+    setCurrent(0);
+    setViewMode("image");
+  }, [space?.id]);
+
   const images = space?.space_images ?? [];
   const active = images[current];
   const { data: settings } = useQuery(siteSettingsQuery);
   const whatsappNumber = settings?.whatsapp;
+  const embedUrl = getYouTubeEmbedUrl(space?.youtubeLink);
 
   return (
     <Dialog.Root open={space !== null} onOpenChange={(open) => !open && onClose()}>
@@ -30,29 +44,105 @@ export function SpaceGalleryModal({ space, onClose }: { space: Space | null; onC
                 </Button>
               </Dialog.Close>
 
-              {/* Image Gallery Column (takes ~55% width on desktop, h-56 md:h-96 on mobile/tablet) */}
-              <div className="relative flex h-56 sm:h-72 md:h-96 min-h-[14rem] sm:min-h-[18rem] md:min-h-[24rem] lg:min-h-[350px] lg:h-auto w-full flex-col bg-black/50 lg:w-[55%] shrink-0">
-                {active && (
-                  <img 
-                    src={getSpaceImageUrl(active)} 
-                    alt={active.alt_text || space.name} 
-                    className="h-full w-full object-cover lg:absolute lg:inset-0" 
-                  />
+              {/* Image / Video Gallery Column (takes ~55% width on desktop) */}
+              <div className="relative flex min-h-[300px] sm:min-h-[380px] md:min-h-[440px] lg:h-auto w-full flex-col bg-black/60 lg:w-[55%] shrink-0 overflow-hidden border-b lg:border-b-0 lg:border-l border-white/10">
+                {/* Switcher Tab between Photos & Video if youtubeLink exists */}
+                {embedUrl && (
+                  <div className="absolute top-3 right-3 z-30 flex items-center rounded-xl bg-black/70 p-1 backdrop-blur-md border border-white/20">
+                    <button
+                      type="button"
+                      onClick={() => setViewMode("image")}
+                      className={`flex items-center gap-1.5 rounded-lg px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
+                        viewMode === "image"
+                          ? "bg-[#D4AF37] text-black shadow"
+                          : "text-zinc-300 hover:text-white"
+                      }`}
+                    >
+                      <ImageIcon className="size-3.5" />
+                      الصور ({images.length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setViewMode("video")}
+                      className={`flex items-center gap-1.5 rounded-lg px-3 py-1 text-xs font-semibold transition-all cursor-pointer ${
+                        viewMode === "video"
+                          ? "bg-red-600 text-white shadow"
+                          : "text-zinc-300 hover:text-white"
+                      }`}
+                    >
+                      <Play className="size-3.5 fill-current" />
+                      فيديو الجولة
+                    </button>
+                  </div>
                 )}
-                {images.length > 1 && (
-                  <>
-                    <button onClick={() => setCurrent((current - 1 + images.length) % images.length)} className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 flex h-9 w-9 md:h-12 md:w-12 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 hover:text-primary shadow-[0_0_15px_rgba(0,0,0,0.5)]" aria-label="الصورة السابقة">
-                      <ChevronRight className="size-5 md:size-8" />
-                    </button>
-                    <button onClick={() => setCurrent((current + 1) % images.length)} className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 flex h-9 w-9 md:h-12 md:w-12 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 hover:text-primary shadow-[0_0_15px_rgba(0,0,0,0.5)]" aria-label="الصورة التالية">
-                      <ChevronLeft className="size-5 md:size-8" />
-                    </button>
-                    <div className="absolute inset-x-0 bottom-4 md:bottom-6 flex justify-center gap-2 md:gap-3">
-                      {images.map((image, index) => (
-                        <button key={image.id} onClick={() => setCurrent(index)} aria-label={`عرض الصورة ${index + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${index === current ? "w-8 md:w-10 bg-primary shadow-[0_0_10px_rgba(212,175,55,0.8)]" : "w-3 md:w-4 bg-white/50 hover:bg-white"}`} />
-                      ))}
+
+                {/* Main Media Display Area */}
+                <div className="relative flex-1 min-h-[240px] sm:min-h-[300px] md:min-h-[360px] w-full bg-black">
+                  {viewMode === "video" && embedUrl ? (
+                    <iframe
+                      src={`${embedUrl}?autoplay=1&rel=0`}
+                      title="جولة الفيديو"
+                      className="absolute inset-0 h-full w-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : active ? (
+                    <>
+                      <img 
+                        src={getSpaceImageUrl(active)} 
+                        alt={active.alt_text || space.name} 
+                        className="h-full w-full object-cover absolute inset-0" 
+                      />
+                      {images.length > 1 && (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => setCurrent((current - 1 + images.length) % images.length)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 md:h-11 md:w-11 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 hover:text-primary shadow-lg cursor-pointer"
+                            aria-label="الصورة السابقة"
+                          >
+                            <ChevronRight className="size-5 md:size-7" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCurrent((current + 1) % images.length)}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 md:h-11 md:w-11 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 hover:text-primary shadow-lg cursor-pointer"
+                            aria-label="الصورة التالية"
+                          >
+                            <ChevronLeft className="size-5 md:size-7" />
+                          </button>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-zinc-500">
+                      لا توجد صور متاحة
                     </div>
-                  </>
+                  )}
+                </div>
+
+                {/* Thumbnails Gallery Strip */}
+                {images.length > 1 && viewMode === "image" && (
+                  <div className="relative z-20 flex gap-2 overflow-x-auto p-3 bg-black/80 backdrop-blur-md border-t border-white/10 no-scrollbar">
+                    {images.map((img, idx) => (
+                      <button
+                        key={img.id || idx}
+                        type="button"
+                        onClick={() => setCurrent(idx)}
+                        className={`relative h-14 w-20 shrink-0 overflow-hidden rounded-lg border-2 transition-all cursor-pointer ${
+                          idx === current
+                            ? "border-[#D4AF37] scale-105 shadow-[0_0_12px_rgba(212,175,55,0.6)]"
+                            : "border-transparent opacity-60 hover:opacity-100"
+                        }`}
+                      >
+                        <img
+                          src={getSpaceImageUrl(img)}
+                          alt={img.alt_text || `صورة ${idx + 1}`}
+                          className="h-full w-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
                 )}
               </div>
 
@@ -91,16 +181,31 @@ export function SpaceGalleryModal({ space, onClose }: { space: Space | null; onC
                     </div>
                   )}
 
+                  {/* YouTube Video Tour Section */}
                   {space.youtubeLink && (
-                    <div className="mb-6">
+                    <div className="mb-6 rounded-xl border border-red-500/30 bg-red-950/20 p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs font-semibold text-red-400 flex items-center gap-1.5">
+                          <Play className="size-3.5 fill-current" /> جولة فيديو داخل المساحة
+                        </span>
+                        {embedUrl && (
+                          <button
+                            type="button"
+                            onClick={() => setViewMode("video")}
+                            className="text-xs text-[#D4AF37] hover:underline cursor-pointer"
+                          >
+                            تشغيل في المعرض ↑
+                          </button>
+                        )}
+                      </div>
                       <a
                         href={space.youtubeLink}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center justify-center gap-3 w-full py-3.5 px-4 rounded-xl border border-red-500/40 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all font-medium text-sm shadow-lg shadow-red-500/5 group"
+                        className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl border border-red-500/40 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all font-medium text-sm shadow-lg shadow-red-500/5 group"
                       >
-                        <span className="size-2.5 rounded-full bg-red-500 animate-ping" />
-                        مشاهدة جولة الفيديو على يوتيوب
+                        <span className="size-2 rounded-full bg-red-500 animate-ping" />
+                        مشاهدة الفيديو على يوتيوب
                         <ArrowUpLeft className="size-4 transform group-hover:-translate-x-1 transition-transform" />
                       </a>
                     </div>
