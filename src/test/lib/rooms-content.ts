@@ -13,6 +13,9 @@ export type RoomsPageContent = {
   shareTimeTitle: string;
   shareTimeSubtitle: string;
   shareTimeDesc: string;
+  isNoticeEnabled?: boolean;
+  noticeTitle?: string;
+  noticeText?: string;
 };
 
 export const defaultRoomsContent: RoomsPageContent = {
@@ -28,6 +31,9 @@ export const defaultRoomsContent: RoomsPageContent = {
   shareTimeTitle: "Share Time",
   shareTimeSubtitle: "مشاركة / ساعات",
   shareTimeDesc: "مساحات عمل مشتركة وقاعات اجتماعات بنظام المشاركة والساعات. مرونة غير محدودة، لقاءات مثمرة، وتكاليف مدروسة حسب استخدامك الفعلي.",
+  isNoticeEnabled: true,
+  noticeTitle: "تنويه هام:",
+  noticeText: "حجز جميع مساحات العمل المستقلة يتطلب إيداع شهر تأمين مقدماً.",
 };
 
 export async function fetchRoomsContent(): Promise<RoomsPageContent> {
