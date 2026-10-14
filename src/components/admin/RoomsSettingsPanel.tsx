@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Save, Sparkles, Clock, Users } from "lucide-react";
+import { Save, Sparkles, Clock, Users, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import {
   fetchRoomsContent,
   saveRoomsContent,
@@ -30,7 +31,7 @@ export function RoomsSettingsPanel({ onSaved }: { onSaved?: () => void }) {
     load();
   }, []);
 
-  const handleChange = (field: keyof RoomsPageContent, value: string) => {
+  const handleChange = <K extends keyof RoomsPageContent>(field: K, value: RoomsPageContent[K]) => {
     setData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -117,6 +118,53 @@ export function RoomsSettingsPanel({ onSaved }: { onSaved?: () => void }) {
               onChange={(e) => handleChange("mainSubtitle", e.target.value)}
               className="admin-input mt-2"
               placeholder="نص الفقرة الفرعية أسفل العنوان الرئيسي..."
+            />
+          </label>
+        </div>
+      </div>
+
+      {/* ─── قسم التنويه الهام ─── */}
+      <div className="space-y-5 rounded-2xl border border-red-500/30 bg-gradient-to-b from-red-950/20 to-surface/40 p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+          <div className="flex items-center gap-3">
+            <div className="size-9 rounded-lg border border-red-500/40 bg-red-500/10 flex items-center justify-center text-red-400">
+              <AlertTriangle className="size-5" />
+            </div>
+            <div>
+              <h2 className="font-display text-xl font-bold text-white">صندوق التنويه الهام</h2>
+              <p className="text-xs text-muted-foreground">تخصيص شريط التنبيه وإدارته في صفحة أنظمة العمل</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 bg-black/40 px-4 py-2 rounded-xl border border-border">
+            <span className="text-sm font-medium text-white">تفعيل التنويه في الموقع</span>
+            <Switch
+              checked={data.isNoticeEnabled ?? true}
+              onCheckedChange={(checked) => handleChange("isNoticeEnabled", checked)}
+            />
+          </div>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2">
+          <label className="block">
+            <span className="text-sm font-medium">عنوان التنويه (البادئة)</span>
+            <input
+              type="text"
+              value={data.noticeTitle ?? ""}
+              onChange={(e) => handleChange("noticeTitle", e.target.value)}
+              className="admin-input mt-2"
+              placeholder="مثال: تنويه هام:"
+            />
+          </label>
+
+          <label className="block md:col-span-2">
+            <span className="text-sm font-medium">محتوى نص التنويه الهام</span>
+            <textarea
+              rows={2}
+              value={data.noticeText ?? ""}
+              onChange={(e) => handleChange("noticeText", e.target.value)}
+              className="admin-input mt-2"
+              placeholder="مثال: حجز جميع مساحات العمل المستقلة يتطلب إيداع شهر تأمين مقدماً."
             />
           </label>
         </div>
