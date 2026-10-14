@@ -34,7 +34,7 @@ export function SpaceGalleryModal({ space, onClose }: { space: Space | null; onC
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm transition-all duration-300" />
         <Dialog.Content 
           dir="rtl" 
-          className="glass-modal fixed left-1/2 top-1/2 z-50 flex max-h-[90vh] md:max-h-[95vh] w-[calc(100%-1.5rem)] sm:w-[calc(100%-2rem)] max-w-7xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.15)] lg:flex-row rounded-2xl md:rounded-3xl border border-[#D4AF37]/30"
+          className="glass-modal fixed left-1/2 top-1/2 z-50 flex h-[700px] max-h-[800px] w-[calc(100%-1.5rem)] sm:w-[calc(100%-2rem)] max-w-7xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.15)] lg:flex-row rounded-2xl md:rounded-3xl border border-[#D4AF37]/30"
         >
           {space && (
             <>
@@ -45,7 +45,7 @@ export function SpaceGalleryModal({ space, onClose }: { space: Space | null; onC
               </Dialog.Close>
 
               {/* Image / Video Gallery Column (takes ~55% width on desktop) */}
-              <div className="relative flex min-h-[300px] sm:min-h-[380px] md:min-h-[440px] lg:h-auto w-full flex-col bg-black/60 lg:w-[55%] shrink-0 overflow-hidden border-b lg:border-b-0 lg:border-l border-white/10">
+              <div className="relative flex min-h-[300px] sm:min-h-[380px] md:min-h-[440px] lg:h-full w-full flex-col bg-black/60 lg:w-[55%] shrink-0 overflow-hidden border-b lg:border-b-0 lg:border-l border-white/10">
                 {/* Switcher Tab between Photos & Video if youtubeLink exists */}
                 {embedUrl && (
                   <div className="absolute top-3 right-3 z-30 flex items-center rounded-xl bg-black/70 p-1 backdrop-blur-md border border-white/20">
@@ -147,9 +147,9 @@ export function SpaceGalleryModal({ space, onClose }: { space: Space | null; onC
               </div>
 
               {/* Text & Details Column (takes ~45% width on desktop) */}
-              <div className="relative flex flex-1 w-full flex-col bg-surface/90 p-4 sm:p-6 md:p-10 lg:h-[80vh] lg:w-[45%] overflow-hidden">
+              <div className="relative flex flex-1 h-full min-h-0 w-full flex-col bg-surface/90 p-4 sm:p-6 md:p-10 lg:w-[45%] overflow-hidden">
                 {/* Scrollable Content Area */}
-                <div className="flex-1 max-h-[85vh] overflow-y-auto overscroll-contain pb-10 pr-1 pl-1">
+                <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain pb-10 pr-1 pl-1">
                   <p className="text-xs sm:text-sm tracking-widest text-primary font-medium">{space.eyebrow}</p>
                   <Dialog.Title className="mt-2 font-display text-2xl md:text-4xl text-zinc-100">{space.name}</Dialog.Title>
                   
@@ -213,7 +213,7 @@ export function SpaceGalleryModal({ space, onClose }: { space: Space | null; onC
                 </div>
 
                 {/* Fixed CTA at the bottom */}
-                <div className="mt-4 md:mt-6 border-t border-white/10 pt-4 md:pt-6">
+                <div className="mt-4 md:mt-6 border-t border-white/10 pt-4 md:pt-6 shrink-0">
                   {whatsappNumber ? (
                     <Button asChild size="lg" className="h-12 md:h-14 w-full bg-primary text-base md:text-lg text-black shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:bg-gold-bright">
                       <a href={whatsappLink(whatsappNumber, `مرحباً، أريد الاستفسار عن حجز ${space.name}`)} target="_blank" rel="noreferrer">
