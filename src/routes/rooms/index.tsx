@@ -44,7 +44,7 @@ function RoomsCategoryPage() {
 
       <section className="relative z-10 pt-32 pb-24 px-6 md:px-10 max-w-7xl mx-auto min-h-screen flex flex-col justify-center items-center">
         {/* Brand Logo & Header */}
-        <div className="text-center mb-16 flex flex-col items-center">
+        <div className="text-center mb-6 flex flex-col items-center">
           <div className="mb-6 transform hover:scale-105 transition-transform duration-500">
             <Brand favicon={content.seo?.favicon} />
           </div>
@@ -72,6 +72,17 @@ function RoomsCategoryPage() {
               </p>
             </>
           )}
+        </div>
+
+        {/* Important Notice */}
+        <div className="mx-auto mt-8 mb-10 max-w-2xl px-6 py-4 rounded-xl border border-red-500/20 bg-black/40 backdrop-blur-md shadow-[0_8px_30px_rgba(220,38,38,0.15)] flex items-center justify-center gap-3">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/10 text-red-500">
+            ⚠️
+          </span>
+          <p className="text-sm md:text-base text-gray-200 font-medium">
+            <span className="text-red-400 font-bold ml-1">تنويه هام:</span>
+            حجز جميع مساحات العمل المستقلة يتطلب إيداع شهر تأمين مقدماً.
+          </p>
         </div>
 
         {/* The Two Grand Luxury Cards */}
