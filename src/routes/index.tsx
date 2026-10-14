@@ -152,7 +152,7 @@ function HomePage() {
       <SiteHeader />
 
       {/* ─── Hero Slider ─── */}
-      <section className="relative z-10 bg-transparent min-h-[85vh] md:min-h-[94svh] flex items-center overflow-hidden pt-28 md:pt-32">
+      <section className="relative z-10 bg-transparent h-[700px] max-h-[850px] w-full flex items-center overflow-hidden pt-28 md:pt-32">
         {heroSlides.map((image, index) => (
           <img
             key={image}
