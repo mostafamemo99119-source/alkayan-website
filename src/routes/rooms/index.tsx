@@ -75,15 +75,19 @@ function RoomsCategoryPage() {
         </div>
 
         {/* Important Notice */}
-        <div className="mx-auto mt-8 mb-10 max-w-2xl px-6 py-4 rounded-xl border border-red-500/20 bg-black/40 backdrop-blur-md shadow-[0_8px_30px_rgba(220,38,38,0.15)] flex items-center justify-center gap-3">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/10 text-red-500">
-            ⚠️
-          </span>
-          <p className="text-sm md:text-base text-gray-200 font-medium">
-            <span className="text-red-400 font-bold ml-1">تنويه هام:</span>
-            حجز جميع مساحات العمل المستقلة يتطلب إيداع شهر تأمين مقدماً.
-          </p>
-        </div>
+        {roomsContent.isNoticeEnabled !== false && roomsContent.noticeText && roomsContent.noticeText.trim() !== "" && (
+          <div className="mx-auto mt-8 mb-10 max-w-2xl px-6 py-4 rounded-xl border border-red-500/20 bg-black/40 backdrop-blur-md shadow-[0_8px_30px_rgba(220,38,38,0.15)] flex items-center justify-center gap-3">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/10 text-red-500">
+              ⚠️
+            </span>
+            <p className="text-sm md:text-base text-gray-200 font-medium">
+              {roomsContent.noticeTitle && (
+                <span className="text-red-400 font-bold ml-1">{roomsContent.noticeTitle}</span>
+              )}
+              {roomsContent.noticeText}
+            </p>
+          </div>
+        )}
 
         {/* The Two Grand Luxury Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 w-full max-w-5xl">
